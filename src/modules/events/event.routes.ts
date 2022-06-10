@@ -1,21 +1,7 @@
 import { Request, Response, Router } from 'express'
-
+import { eventsController } from './event.controller'
 export const router = Router()
 
-router.get('/events',(req: Request, res: Response) => {
-  return res.send({
-    message: "Todos os eventos"
-  })
-})
-
-router.post('/events',(req: Request, res: Response) => {
-  return res.send({
-    message: "Criar evento"
-  })
-})
-
-router.post('/buy/tickets',(req: Request, res: Response) => {
-  return res.send({
-    message: "Comprar ingressos"
-  })
-})
+router.get('/events', eventsController.getEvents )
+router.post('/events', eventsController.postCreateEvent)
+router.post('/buy/tickets', eventsController.postBuyTickets )
