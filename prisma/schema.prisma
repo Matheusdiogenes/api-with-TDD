@@ -10,5 +10,5 @@ datasource db {
 model Event {
   id Int @id @default(autoincrement())
   name String
-  tickets_available String
+  tickets_available Int
 }
