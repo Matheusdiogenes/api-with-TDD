@@ -26,8 +26,7 @@ export class HttpResponse {
         statusCode: 200
       }
     }
-
-    event.buy(amountTicket)
+    
     return {
       body: {
         message: 'Ticket(s) purchased successfully'

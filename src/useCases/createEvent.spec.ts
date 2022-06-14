@@ -1,6 +1,12 @@
 import { HttpResponse } from "..//helpers/HttpResponse"
 import { CreateEvent } from "../entities/CreateEvent"
 
+class CreateEventTest extends CreateEvent {  
+  buy(amount: number) {
+    return this.tickets_available = this.tickets_available - amount
+  }
+}
+
 // Decrição do teste
 describe('Create event', () => {
   const newEvent = {
@@ -8,7 +14,7 @@ describe('Create event', () => {
     tickets_available: 10
   }
   // Criando o evento
-  const event = new CreateEvent(newEvent)
+  const event = new CreateEventTest(newEvent)
 
   // Teste 1
   test('Should return event data', () => {
@@ -23,13 +29,14 @@ describe('Create event', () => {
     const amountTicket = event.tickets_available
     const quantityPurchased = 9
     const httpResponse = HttpResponse.buyTicket(quantityPurchased, event)
+    event.buy(quantityPurchased)
 
     expect(httpResponse.body.message).toBe('Ticket(s) purchased successfully')
     expect(httpResponse.statusCode).toBe(200)
     expect(event.tickets_available).toBe(amountTicket - quantityPurchased)
   })
 
-  // // Teste 3
+  // Teste 3
   test('Should return message: This amount of tickets is not available.', () => {
     const quantityPurchased = 2
     const httpResponse = HttpResponse.buyTicket(quantityPurchased, event)
@@ -43,6 +50,7 @@ describe('Create event', () => {
     const amountTicket = event.tickets_available
     const quantityPurchased = 1
     const httpResponse = HttpResponse.buyTicket(quantityPurchased, event)
+    event.buy(quantityPurchased)
 
     expect(httpResponse.body.message).toBe('Ticket(s) purchased successfully')
     expect(httpResponse.statusCode).toBe(200)
@@ -52,7 +60,7 @@ describe('Create event', () => {
   // Teste 5
   test('Should return message: Tickets Sold Out.', () => {
     const quantityPurchased = 1
-    const httpResponse = HttpResponse.buyTicket(quantityPurchased, event)
+    const httpResponse = HttpResponse.buyTicket(quantityPurchased, event)   
     
     expect(httpResponse.body.message).toBe('Tickets Sold Out.')
     expect(httpResponse.statusCode).toBe(200)
